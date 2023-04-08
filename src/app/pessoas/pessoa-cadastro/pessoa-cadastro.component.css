@@ -1,0 +1,18 @@
+.p-button {
+    margin-right: .25em
+}
+
+a{
+    text-decoration: none;
+    vertical-align: super;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+@media(max-width: 334px){
+    a{
+        font-size: 14px;
+    }
+}

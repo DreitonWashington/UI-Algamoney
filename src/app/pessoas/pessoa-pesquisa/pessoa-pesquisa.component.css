@@ -1,0 +1,21 @@
+.col-acoes{
+    width: 120px;
+    align-items: center;
+}
+
+.col-acoes > a{
+    margin-right: 5px;
+}
+
+.divPesquisaB{
+    margin: 5px 0;
+}
+
+.col-status>a{
+    text-decoration: none;
+    color: #495057;
+}
+
+.col-status>a:hover{
+    text-decoration: underline;
+}
