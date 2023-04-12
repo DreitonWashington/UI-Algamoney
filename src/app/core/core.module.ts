@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { LancamentoService } from './../lancamentos/lancamento.service';
 import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { RouterModule } from '@angular/router';
 
 registerLocaleData(localePt, 'pt-BR');  
 
@@ -22,6 +23,7 @@ registerLocaleData(localePt, 'pt-BR');
     CommonModule,
     ToastModule,
     ConfirmDialogModule,
+    RouterModule
   ],
   exports: [
     NavbarComponent,

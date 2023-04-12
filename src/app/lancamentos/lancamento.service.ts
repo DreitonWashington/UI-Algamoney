@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { Lancamento } from '../core/model';
 
 export class LancamentoFiltro{
@@ -79,5 +79,41 @@ export class LancamentoService {
     });
 
     return await lastValueFrom(this.http.post(this.lancamentosUrl, lancamento, {headers})).then((response:any)=>response);
+  }
+
+  //SUBSTITUIR ANY POR LANCAMENTO DPS...
+
+  lancamentos:Lancamento[] = []
+
+  async atualizar(lancamento:Lancamento):Promise<Lancamento>{
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW5AQWxnYW1vbmV5LmNvbTphZG1pbg==',
+      'Content-Type': 'application/json'
+    });
+
+    return await lastValueFrom(this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento, {headers})).then((response:any)=>response)
+  }
+ 
+  async buscarPorCodigo(codigo:number):Promise<any>{
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW5AQWxnYW1vbmV5LmNvbTphZG1pbg=='
+    });
+
+    await lastValueFrom(this.http.get(`${this.lancamentosUrl}/${codigo}`, {headers})).then((response:any)=>{
+        this.converterStringsParaDatas([response])
+        return response;
+      });  
+  }
+
+  private converterStringsParaDatas(lancamentos: Lancamento[]) {
+    for (const lancamento of lancamentos) {
+      let offset = new Date().getTimezoneOffset() * 60000;
+
+      lancamento.dataVencimento = new Date(new Date(lancamento.dataVencimento!).getTime() + offset);
+
+      if (lancamento.dataPagamento) {
+        lancamento.dataPagamento = new Date(new Date(lancamento.dataPagamento).getTime() + offset);
+      }
+    }
   }
 }

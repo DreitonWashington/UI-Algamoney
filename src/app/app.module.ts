@@ -13,6 +13,11 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LancamentoPesquisaComponent } from './lancamentos/lancamento-pesquisa/lancamento-pesquisa.component';
+import { LancamentoCadastroComponent } from './lancamentos/lancamento-cadastro/lancamento-cadastro.component';
+import { PessoaPesquisaComponent } from './pessoas/pessoa-pesquisa/pessoa-pesquisa.component';
+import { PessoaCadastroComponent } from './pessoas/pessoa-cadastro/pessoa-cadastro.component';
 
 
 
@@ -22,6 +27,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 
 registerLocaleData(localePt)
+
+  const routes: Routes = [
+    { path: 'lancamentos', component: LancamentoPesquisaComponent },
+    { path: 'lancamentos/novo', component: LancamentoCadastroComponent },
+    { path: 'lancamentos/:codigo', component: LancamentoCadastroComponent },
+    { path: 'pessoas', component: PessoaPesquisaComponent },
+    { path: 'pessoas/novo', component: PessoaCadastroComponent }
+  ];
+
 @NgModule({
   declarations: [
     AppComponent
@@ -39,7 +53,8 @@ registerLocaleData(localePt)
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
     }
-    })
+    }),
+    RouterModule.forRoot(routes)
     
   ],
   providers: [],

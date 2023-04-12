@@ -1,7 +1,9 @@
+import { ActivatedRoute } from '@angular/router';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { LancamentoFiltro, LancamentoService } from './../lancamento.service';
 import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MessageService, ConfirmationService } from 'primeng/api';
+import { Lancamento } from 'src/app/core/model';
 
 @Component({
   selector: 'app-lancamento-pesquisa',
@@ -17,10 +19,11 @@ export class LancamentoPesquisaComponent implements OnInit{
 
   constructor(private lancamentoService:LancamentoService, 
     private messageService:MessageService, private confirmationService:ConfirmationService,
-    private errorHandlerService:ErrorHandlerService){}
+    private errorHandlerService:ErrorHandlerService, private router:ActivatedRoute){}
 
   ngOnInit(){
     //this.pesquisar();
+    
   }
 
   pesquisar(pagina = 0){
@@ -47,6 +50,10 @@ export class LancamentoPesquisaComponent implements OnInit{
         this.messageService.add({severity: 'success', summary: 'Success', detail: 'Lancamento Excluido!'});
       }
     })
+  }
+
+  edit(lancamento:Lancamento){
+    return this.lancamentoService.buscarPorCodigo(Number(lancamento.codigo));
   }
   
 }

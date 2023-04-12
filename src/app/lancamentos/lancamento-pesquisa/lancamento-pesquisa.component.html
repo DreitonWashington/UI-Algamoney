@@ -62,7 +62,8 @@
                 [ngStyle]="{color: lancamento.tipo === 'DESPESA'?'red':'blue'}">{{lancamento.valor |
                 currency:'BRL':true:'1.2-2'}}</span></td>
             <td class="col-acoes p-column-title">
-              <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+              <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" [routerLink]="['/lancamentos', lancamento.codigo]"
+                style="text-decoration: none;" (click)="edit(lancamento)"></a>
               <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)"></button>
             </td>
           </tr>
@@ -71,7 +72,7 @@
     </div>
 
     <div class="col-12">
-      <a pButton label="Novo lancamento"></a>
+      <a pButton label="Novo lancamento" routerLink="/lancamentos/novo" [ngStyle]="{'text-decoration':'none'}"></a>
     </div>
 
   </div>
