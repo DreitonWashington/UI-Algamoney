@@ -45,7 +45,7 @@
                             </ng-template>
                         </td>
                         <td class="p-column-title col-acoes">
-                            <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                            <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" (click)="editar(pessoa)" [routerLink]="['/pessoas', pessoa.codigo]"></a>
                             <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="remover(pessoa)"></button>
                         </td>
                     </tr>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="col-12">
-            <a pButton label="Nova Pessoa"></a>
+            <a pButton label="Nova Pessoa" [routerLink]="['/pessoas/novo']"></a>
         </div>
     </div>
         

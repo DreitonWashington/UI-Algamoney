@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { LancamentoPesquisaComponent } from './lancamento-pesquisa/lancamento-pesquisa.component';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 import { RouterModule } from '@angular/router';
+import { LancamentosRoutingModule } from './lancamentos-routing.module';
 
 
 
@@ -40,11 +41,8 @@ import { RouterModule } from '@angular/router';
     InputNumberModule,
     SharedModule,
     DatePipe,
-    RouterModule
+    LancamentosRoutingModule
   ],
-  exports: [
-    LancamentoCadastroComponent,
-    LancamentoPesquisaComponent
-  ]
+  exports: []
 })
 export class LancamentosModule { }

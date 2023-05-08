@@ -80,14 +80,12 @@ export class PessoaService {
     await lastValueFrom(this.http.put(`${this.pessoasUrl}/${id}/ativo`,body.status, {headers})).then(()=>null);
   }
 
-  async pesquisarPorId(id:number):Promise<any>{
+  async pesquisarPorId(id:Number):Promise<Pessoa>{
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW5AQWxnYW1vbmV5LmNvbTphZG1pbg=='
     });
 
-    return await lastValueFrom(this.http.get(`${this.pessoasUrl}/${id}`, {headers})).then((response:any)=>{
-      response['content']
-    });
+    return await lastValueFrom(this.http.get(`${this.pessoasUrl}/${id}`, {headers})).then((response:any) => response)
   }
 
   async adicionar(pessoa:Pessoa):Promise<Pessoa>{
@@ -96,7 +94,17 @@ export class PessoaService {
       'Content-Type': 'application/json'
     });
 
-    return await lastValueFrom(this.http.post(this.pessoasUrl, pessoa, {headers})).then(((response:any)=>response))
+    return await lastValueFrom(this.http.post(this.pessoasUrl, pessoa, {headers})).then((response:any)=>response)
   }
+
+  async atualizar(pessoa:Pessoa){
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW5AQWxnYW1vbmV5LmNvbTphZG1pbg==',
+      'Content-Type': 'application/json'
+    });
+
+    return await lastValueFrom(this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, pessoa, {headers}))
+  }
+
   
 }

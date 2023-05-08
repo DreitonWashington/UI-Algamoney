@@ -63,8 +63,9 @@
                 currency:'BRL':true:'1.2-2'}}</span></td>
             <td class="col-acoes p-column-title">
               <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" [routerLink]="['/lancamentos', lancamento.codigo]"
-                style="text-decoration: none;" (click)="edit(lancamento)"></a>
-              <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)"></button>
+                style="text-decoration: none;" (click)="edit(lancamento)" *ngIf="naoTemPermissao('ROLE_CADASTRAR_LANCAMENTO')"></a>
+              <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)" 
+              *ngIf="naoTemPermissao('ROLE_REMOVER_LANCAMENTO')"></button>
             </td>
           </tr>
         </ng-template>
@@ -74,7 +75,7 @@
     <div class="col-12">
       <a pButton label="Novo lancamento" routerLink="/lancamentos/novo" [ngStyle]="{'text-decoration':'none'}"></a>
     </div>
-
+    
   </div>
 
 </div>

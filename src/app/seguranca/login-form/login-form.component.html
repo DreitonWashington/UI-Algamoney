@@ -1,0 +1,27 @@
+<div class="container">
+    <!-- {{auth.jwtPayload|json}} -->
+    <form  #form="ngForm" autocomplete="off">
+        <div class="ctMain">
+            
+            <h1 class=" flex justify-content-center">Login</h1>
+            
+            <div class=" flex justify-content-center">
+                <div class="lg:col-5 col-9 p-fluid">
+                    <label>E-mail</label>
+                    <input type="email" pInputText name="email" ngModel #logEmail required/>
+                </div>
+            </div>
+            
+            <div class="flex justify-content-center">
+                <div class="lg:col-5 col-9 p-fluid">
+                    <label>Password</label>
+                    <input type="password" pInputText name="password" ngModel #logPassword required/>      
+                </div>
+            </div>
+            
+            <div class="flex justify-content-center">
+                <p-button label="Login" type="submit" (click)="login(logEmail.value,logPassword.value); logPassword.value='';"></p-button>
+            </div>
+        </div>
+    </form>
+</div>

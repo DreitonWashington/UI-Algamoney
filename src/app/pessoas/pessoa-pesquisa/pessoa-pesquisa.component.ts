@@ -3,6 +3,8 @@ import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api'
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PessoaFilter, PessoaService } from '../pessoa.service';
 import { HttpResponse, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -18,10 +20,12 @@ export class PessoaPesquisaComponent implements OnInit{
   @ViewChild('tabela') grid:any; 
 
   constructor(private pessoaService:PessoaService, private confirmationService:ConfirmationService,
-      private messageService:MessageService, private error:ErrorHandlerService){}
+      private messageService:MessageService, private error:ErrorHandlerService, private router:Router, 
+      private title:Title){}
 
   ngOnInit(){
     //this.pesquisar();
+    this.title.setTitle("Pesquisa de Pessoas")
   }
 
   pesquisar(pagina = 0){
@@ -61,5 +65,9 @@ export class PessoaPesquisaComponent implements OnInit{
       this.grid.reset()
       this.messageService.add({severity: 'success', summary: 'Success', detail: 'Status atualizado!'})
     })
+  }
+
+  editar(pessoa:any){
+    this.pessoaService.pesquisarPorId(Number(pessoa.codigo));
   }
 }

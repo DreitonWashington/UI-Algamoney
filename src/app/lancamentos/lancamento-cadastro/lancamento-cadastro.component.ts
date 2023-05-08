@@ -6,7 +6,8 @@ import { Lancamento } from 'src/app/core/model';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
 import { LancamentoService } from '../lancamento.service';
 import { MessageService } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -32,15 +33,40 @@ export class LancamentoCadastroComponent implements OnInit {
 
   constructor(private categoriasService:CategoriaService, private errorHandlerService:ErrorHandlerService,
       private pessoasService:PessoaService, private lancamentoService:LancamentoService, private messageService:MessageService,
-      private router: ActivatedRoute) { }
+      private route: ActivatedRoute, private router: Router, private title:Title) { }
 
   ngOnInit(): void {
-    if(this.router.snapshot.params){
-      this.lancamentoService.buscarPorCodigo(this.router.snapshot.params['codigo']);
-      
+    this.title.setTitle("Novo Lançamento")
+    
+    const codigoLancamento = this.route.snapshot.params['codigo'];
+    
+    if (codigoLancamento && codigoLancamento !== 'novo') {
+      if(isNaN(codigoLancamento)){
+        this.router.navigate(['pagina-nao-encontrada'])
+        return
+      }
+      this.carregarLancamento(codigoLancamento)
     }
-    this.carregarCategorias()
-    this.carregarPessoas()
+
+    this.carregarCategorias();
+    this.carregarPessoas();
+  }
+
+  atualizarTituloEdicao(){
+    this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`)
+  }
+
+  carregarLancamento(codigo:number){
+    this.lancamentoService.buscarPorCodigo(codigo).then((lancamento)=>{
+      this.lancamento = lancamento;
+      this.atualizarTituloEdicao();
+    }).catch((error) => this.errorHandlerService.handle(error));
+
+    // console.log(this.lancamentoService.buscarPorCodigo(codigo))
+  }
+
+  get editando(){
+    return Boolean(this.lancamento.codigo)
   }
 
   onSubmit(form:any){
@@ -48,16 +74,37 @@ export class LancamentoCadastroComponent implements OnInit {
     form.reset()
   }
 
-  async salvar(lancamentoForm: NgForm){
-    try {
-      await this.lancamentoService.adicionar(this.lancamento);
+  salvar(lancamento:NgForm){
+    if(this.editando){
+      this.atualizarLancamento(lancamento)
+    }else{
+      this.adicionarLancamento(lancamento)
+    }
+  }
+
+  async adicionarLancamento(lancamentoForm: NgForm){
+    await this.lancamentoService.adicionar(this.lancamento).then((lancamentoAdd)=>{
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lancamento Cadastrado com Sucesso!' });
 
-      lancamentoForm.reset();
+      this.router.navigate(['lancamentos',lancamentoAdd.codigo])
+    }).catch((erro)=>this.errorHandlerService.handle(erro));
+  }
+
+  novo(lancamento:NgForm){
+    lancamento.reset();
+    setTimeout(() => {
       this.lancamento = new Lancamento();
-    } catch (erro) {
-      return this.errorHandlerService.handle(erro);
-    }
+    }, 1)
+    this.router.navigate(['/lancamentos/novo']);
+  }
+
+  atualizarLancamento(lancamento:NgForm){
+    this.lancamentoService.atualizar(this.lancamento).then(response=>{
+      this.lancamento = response;
+
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lancamento Atualizado com Sucesso!' })
+      this.atualizarTituloEdicao();
+    }).catch(erro => this.errorHandlerService.handle(erro))
   }
 
   carregarCategorias(){

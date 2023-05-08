@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { DatePipe, formatDate } from '@angular/common';
 import { Lancamento } from '../core/model';
+import { Router } from '@angular/router';
 
 export class LancamentoFiltro{
   descricao?: string;
@@ -22,7 +23,7 @@ export class LancamentoService {
 
   lancamentosUrl='http://localhost:8080/lancamentos'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   async pesquisar(filtro: LancamentoFiltro): Promise<any>{
     const headers = new HttpHeaders({
@@ -91,15 +92,18 @@ export class LancamentoService {
       'Content-Type': 'application/json'
     });
 
-    return await lastValueFrom(this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento, {headers})).then((response:any)=>response)
+    return await lastValueFrom(this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento, {headers})).then((response:any)=>{
+      this.converterStringsParaDatas([response])
+      return response;
+    })
   }
  
-  async buscarPorCodigo(codigo:number):Promise<any>{
+  async buscarPorCodigo(codigo:number):Promise<Lancamento>{
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW5AQWxnYW1vbmV5LmNvbTphZG1pbg=='
     });
 
-    await lastValueFrom(this.http.get(`${this.lancamentosUrl}/${codigo}`, {headers})).then((response:any)=>{
+    return await lastValueFrom(this.http.get(`${this.lancamentosUrl}/${codigo}`, {headers})).then((response:any)=>{
         this.converterStringsParaDatas([response])
         return response;
       });  

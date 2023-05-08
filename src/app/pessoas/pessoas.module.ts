@@ -1,3 +1,4 @@
+import { CanActivate } from '@angular/router';
 import { SharedModule } from './../shared/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -8,6 +9,8 @@ import { PessoaPesquisaComponent } from './pessoa-pesquisa/pessoa-pesquisa.compo
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PessoasRoutingModule } from './pessoas-routing.module';
+
 
 
 
@@ -23,11 +26,10 @@ import { CommonModule } from '@angular/common';
     InputTextModule,
     TableModule,
     ButtonModule,
-    SharedModule
+    SharedModule,
+    PessoasRoutingModule,
+  
   ],
-  exports: [
-    PessoaCadastroComponent,
-    PessoaPesquisaComponent
-  ]
+  exports: []
 })
 export class PessoasModule { }
