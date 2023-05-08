@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe, formatDate } from '@angular/common';
 import { Lancamento } from '../core/model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 export class LancamentoFiltro{
   descricao?: string;
@@ -21,9 +22,11 @@ export class LancamentoService {
 
   datePipe = new DatePipe('pt-BR');
 
-  lancamentosUrl='http://localhost:8080/lancamentos'
+  lancamentosUrl:string=''
 
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private http: HttpClient, private router:Router) {
+    this.lancamentosUrl = `${environment.apiUrl}/lancamentos`
+  }
 
   async pesquisar(filtro: LancamentoFiltro): Promise<any>{
     const headers = new HttpHeaders({

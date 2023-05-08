@@ -1,15 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
 
-  constructor(private http:HttpClient) { }
+  categoriaUrl:string =''
+  
+  constructor(private http:HttpClient) { 
+    this.categoriaUrl = `${environment.apiUrl}/categorias`
+  }
 
-  categoriaUrl = "http://localhost:8080/categorias"
 
   async listarCategorias():Promise<any>{
     const headers = new HttpHeaders({

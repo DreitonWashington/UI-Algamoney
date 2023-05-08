@@ -2,6 +2,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,11 +10,14 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  oauthTokenUrl = 'http://localhost:8080/oauth/token';
+  oauthTokenUrl:string = ''
+  tokenUrlRevoke:string = ''
 
   jwtPayload:any;
 
   constructor(private http:HttpClient, private jwtHelper: JwtHelperService) { 
+    this.oauthTokenUrl = `${environment.apiUrl}/oauth/token`
+    this.tokenUrlRevoke = `${environment.apiUrl}/tokens/revoke`
     this.carregarToken();
   }
 
@@ -130,7 +134,7 @@ export class AuthService {
   }
 
   async logout(){
-    await this.http.delete('http://localhost:8080/tokens/revoke', { withCredentials: true })
+    await this.http.delete(this.tokenUrlRevoke, { withCredentials: true })
       .toPromise();
     this.limparAccessToken(); 
   }

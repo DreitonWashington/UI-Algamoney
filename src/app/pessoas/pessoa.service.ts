@@ -2,6 +2,7 @@ import { lastValueFrom, observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pessoa } from '../core/model';
+import { environment } from 'src/environments/environment';
 
 
 export class PessoaFilter{
@@ -15,9 +16,12 @@ export class PessoaFilter{
 })
 export class PessoaService {
 
-  constructor(private http: HttpClient) { }
+  pessoasUrl:string = '';
+  
+  constructor(private http: HttpClient) {
+    this.pessoasUrl = `${environment.apiUrl}/pessoas`
+  }
 
-  pessoasUrl = "http://localhost:8080/pessoas";
 
   async pesquisar(filtro:PessoaFilter):Promise<any>{
     const headers = new HttpHeaders({
