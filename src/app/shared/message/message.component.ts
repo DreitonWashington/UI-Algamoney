@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, NgForm } from '@angular/forms';
 // import { FormControl } from '@angular/forms';
 
 @Component({
@@ -17,10 +18,10 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MessageComponent {
 
   @Input() error: string = '';
-  @Input() control: any;
+  @Input() control?: AbstractControl | FormControl | any |null;
   @Input() text: string = '';
 
-  temErro():any{
-    return this.control.hasError(this.error) && this.control.dirty;
+  temErro():Boolean{
+    return this.control? this.control.hasError(this.error) && this.control.dirty:true;
   }
 }
