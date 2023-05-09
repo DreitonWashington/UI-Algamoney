@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CategoriaService } from 'src/app/categorias/categoria.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { Lancamento } from 'src/app/core/model';
@@ -65,7 +65,7 @@ export class LancamentoCadastroComponent implements OnInit {
       tipo: ['RECEITA', Validators.required],
       dataVencimento: [null, Validators.required],
       dataPagamento: [],
-      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      descricao: [null, [this.validarObrigatorio, this.validarTamanhoMinimo(5)]],
       valor: [null, Validators.required],
       pessoa: this.formBuilder.group({
         codigo: [null, Validators.required],
@@ -77,6 +77,16 @@ export class LancamentoCadastroComponent implements OnInit {
       }),
       observacao: []
     })
+  }
+
+  validarObrigatorio(input: FormControl){
+    return (input.value) ? null : { obrigatorio: true}
+  }
+
+  validarTamanhoMinimo(valor:number){
+    return (input:FormControl) => {
+      return(!input.value || input.value.length >= valor) ? null : {tamanhoMinimo: {tamanho:valor}};
+    }
   }
 
   atualizarTituloEdicao(){
