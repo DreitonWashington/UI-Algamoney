@@ -35,9 +35,7 @@ registerLocaleData(localePt)
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
-    LancamentosModule,
     SegurancaModule,
-    PessoasModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
