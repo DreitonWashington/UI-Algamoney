@@ -1,7 +1,7 @@
 import { lastValueFrom, observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pessoa } from '../core/model';
+import { Cidade, Estado, Pessoa } from '../core/model';
 import { environment } from 'src/environments/environment';
 
 
@@ -17,9 +17,13 @@ export class PessoaFilter{
 export class PessoaService {
 
   pessoasUrl:string = '';
+  cidadesUrl?:string;
+  estadosUrl?:string;
   
   constructor(private http: HttpClient) {
     this.pessoasUrl = `${environment.apiUrl}/pessoas`
+    this.cidadesUrl = `${environment.apiUrl}/cidades`
+    this.estadosUrl = `${environment.apiUrl}/estados`
   }
 
 
@@ -108,6 +112,14 @@ export class PessoaService {
     });
 
     return await lastValueFrom(this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, pessoa, {headers}))
+  }
+
+  async listarEstados():Promise<Estado[]>{
+    return await lastValueFrom(this.http.get(`${this.estadosUrl}`)).then((response:any)=>response)
+  }
+
+  async pesquisarCidades(estado:any):Promise<Cidade[]>{
+    return await lastValueFrom(this.http.get(`${this.cidadesUrl}?estado=${parseInt(estado)}`)).then((response:any)=>response)
   }
 
   

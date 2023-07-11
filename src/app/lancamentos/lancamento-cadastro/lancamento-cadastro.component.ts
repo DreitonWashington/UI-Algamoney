@@ -75,7 +75,9 @@ export class LancamentoCadastroComponent implements OnInit {
         codigo: [null, Validators.required],
         nome: []
       }),
-      observacao: []
+      observacao: [],
+      anexo: [],
+      urlAnexo: []
     })
   }
 
@@ -158,5 +160,21 @@ export class LancamentoCadastroComponent implements OnInit {
     })).catch(
       erro=>this.errorHandlerService.handle(erro)
     )
+  }
+
+  get urlUploadAnexo(){
+    return this.lancamentoService.urlUploadAnexo();
+  }
+
+  get uploadHeaders() {
+    return this.lancamentoService.uploadHeaders();
+  }
+
+  aoTerminarUploadAnexo(event: any) {
+    const anexo = event.originalEvent.body;
+    this.formulario.patchValue({
+      anexo: anexo.nome,
+      urlAnexo: anexo.url.replace('\\\\', 'https://')
+    });
   }
 }

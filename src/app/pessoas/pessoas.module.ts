@@ -10,6 +10,11 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoasRoutingModule } from './pessoas-routing.module';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+import { PessoasCadastroContatoComponent } from './pessoas-cadastro-contato/pessoas-cadastro-contato.component';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 
 
@@ -18,6 +23,7 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
   declarations: [
     PessoaCadastroComponent,
     PessoaPesquisaComponent,
+    PessoasCadastroContatoComponent,
   ],
   imports: [
     CommonModule,
@@ -25,8 +31,11 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
     InputMaskModule,
     InputTextModule,
     TableModule,
+    DropdownModule,
     ButtonModule,
     SharedModule,
+    PanelModule,
+    DialogModule,
     PessoasRoutingModule,
   
   ],

@@ -13,7 +13,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
-
+import { FileUploadModule } from 'primeng/fileupload';
 import { LancamentoPesquisaComponent } from './lancamento-pesquisa/lancamento-pesquisa.component';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 import { LancamentosRoutingModule } from './lancamentos-routing.module';
@@ -41,6 +41,7 @@ import { LancamentosRoutingModule } from './lancamentos-routing.module';
     InputNumberModule,
     SharedModule,
     DatePipe,
+    FileUploadModule,
     LancamentosRoutingModule
   ],
   exports: []

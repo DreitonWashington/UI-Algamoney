@@ -1,0 +1,20 @@
+.col-acoes{
+    width: 120px;
+    align-items: center;
+}
+
+.col-acoes-contact > button{
+    margin-right: 5px;
+}
+
+.p-fluid .p-button {
+    width: unset;
+}
+
+.p-fluid .p-button-icon-only {
+    width: 2.357rem!important;
+}
+
+td.col-acoes-contact{
+    text-align-last: center;
+}

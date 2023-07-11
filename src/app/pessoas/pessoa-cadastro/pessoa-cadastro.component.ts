@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { formatCurrency } from '@angular/common';
-import { Pessoa } from 'src/app/core/model';
+import { Contato, Estado, Pessoa } from 'src/app/core/model';
 import { PessoaService } from '../pessoa.service';
 import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -16,6 +16,9 @@ import { Title } from '@angular/platform-browser';
 export class PessoaCadastroComponent {
 
   pessoa = new Pessoa();
+  estados:any[] = [];
+  cidades:any[] = [];
+  estadoSelecionado?: number;
 
   constructor(private pessoaService:PessoaService, private messageService:MessageService, 
       private errorHandlerService:ErrorHandlerService, private route:ActivatedRoute, private title:Title,
@@ -26,6 +29,7 @@ export class PessoaCadastroComponent {
 
     const codigoPessoa = this.route.snapshot.params['codigo'];
 
+
     if(codigoPessoa && codigoPessoa !== 'novo'){
       if(isNaN(codigoPessoa)){
         this.router.navigate(['pagina-nao-encontrada'])
@@ -34,11 +38,24 @@ export class PessoaCadastroComponent {
       this.carregarPessoa(codigoPessoa)
     }
     // this.carregarPessoa(codigoPessoa);
+    this.carregarEstado();
   }
   
   onSubmit(form:any){
     console.log(form)
     form.reset()
+  }
+
+  carregarEstado(){
+    this.pessoaService.listarEstados().then((lista:any)=>{
+      this.estados = lista['content'].map((uf:any)=>({label: uf.nome, value:uf.codigo}))
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  carregarCidades(){
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado).then((lista:any)=>{
+      this.cidades = lista['content'].map((c:any)=>({label: c.nome, value:c.codigo}))
+    }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
   get editando(){
@@ -88,5 +105,4 @@ export class PessoaCadastroComponent {
       this.adicionarPessoa(pessoaCadastro)
     }
   }
-
 }

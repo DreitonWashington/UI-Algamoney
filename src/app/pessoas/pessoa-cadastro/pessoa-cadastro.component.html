@@ -35,7 +35,7 @@
     
             <div class="col-12 md:col-4 p-fluid">
                 <label>Bairro</label>
-                <input pInputText type="text" name="pessoa" [(ngModel)]="pessoa.endereco.bairro" #pessoaBairro="ngModel" required minlength="10">
+                <input pInputText type="text" name="pessoa" [(ngModel)]="pessoa.endereco.bairro" #pessoaBairro="ngModel" required minlength="5">
 
                 <app-message [control]="pessoaBairro" error="required" text="Informe um bairro"></app-message>
                 <app-message [control]="pessoaBairro" error="minlength" text="Mínimo de {{pessoaBairro.errors?.['minlength']?.requiredLength}} caracteres"></app-message>
@@ -50,23 +50,24 @@
             </div>
     
             <div class="col-12 md:col-6 p-fluid">
-                <label>Cidade</label>
-                <input pInputText type="text" name="cidade" [(ngModel)]="pessoa.endereco.cidade" #pessoaCidade="ngModel" required minlength="3">
-
-                <app-message [control]="pessoaCidade" error="required" text="Informe a cidade"></app-message>
-                <app-message [control]="pessoaCidade" error="minlength" text="Mínimo de {{pessoaCidade.errors?.['minlength']?.requiredLength}} caracteres"></app-message>
-            </div>
-    
-            <div class="col-12 md:col-6 p-fluid">
                 <label>Estado</label>
-                <input pInputText type="text" name="estado" [(ngModel)]="pessoa.endereco.estado" #pessoaEstado="ngModel" required minlength="3">
+                <p-dropdown placeholder="Selecione..." autoWidth="false" [filter]="true" [options]="estados"
+                    [(ngModel)]="estadoSelecionado" name="estadoSelecionado" (onChange)="carregarCidades()"></p-dropdown>
+            </div>
 
-                <app-message [control]="pessoaEstado" error="required" text="Informe o estado"></app-message>
-                <app-message [control]="pessoaEstado" error="minlength" text="Mínimo de {{pessoaEstado.errors?.['minlength']?.requiredLength}} caracteres"></app-message>
+            <div class="col-12 md:col-6 p-fluid">
+                <label>Cidade</label>
+                <p-dropdown placeholder="Selecione..." autoWidth="false" [filter]="true" [options]="cidades"></p-dropdown>
+            </div>
+
+            <div class="col-12  p-fluid">
+                <p-panel header="Contatos">
+                    <app-pessoas-cadastro-contato [contatos]="pessoa.contatos"></app-pessoas-cadastro-contato>
+                </p-panel>
             </div>
     
             <div class="col-12">
-                <button pButton type="submit" class="p-button" label="Salvar" [disabled]="pessoaCadastro.invalid"></button>
+                <button pButton type="submit" class="p-button" label="Salvar" [disabled]="pessoaCadastro.invalid" (click)="salvar(pessoaCadastro)"></button>
                 <button pButton type="button" class="p-button p-button-info" label="Novo" (click)="novo(pessoaCadastro)"></button>
                 <a [routerLink]="['/pessoas']">Voltar para a pesquisa</a>
             </div>

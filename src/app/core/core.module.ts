@@ -15,6 +15,8 @@ import { RouterModule } from '@angular/router';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../seguranca/auth.service';
+import { DashboardService } from '../dashboard/dashboard.service';
+import { RelatoriosService } from '../relatorios/relatorios.service';
 
 
 registerLocaleData(localePt, 'pt-BR');  
@@ -44,7 +46,9 @@ registerLocaleData(localePt, 'pt-BR');
     ConfirmationService,
     TranslateService,
     Title,
-    AuthService
+    AuthService,
+    DashboardService,
+    RelatoriosService
   ]
 })
 export class CoreModule { }
