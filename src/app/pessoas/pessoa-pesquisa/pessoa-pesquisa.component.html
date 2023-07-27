@@ -34,8 +34,8 @@
                 <ng-template pTemplate="body" let-pessoa>
                     <tr>
                         <td class="p-column-title"><span class="p-column-title">Nome</span>{{pessoa.nome}}</td>
-                        <td class="p-column-title"><span class="p-column-title">Cidade</span>{{pessoa.endereco.cidade}}</td>
-                        <td class="p-column-title"><span class="p-column-title">Estado</span>{{pessoa.endereco.estado}}</td>
+                        <td class="p-column-title"><span class="p-column-title">Cidade</span>{{pessoa.endereco.cidade.nome}}</td>
+                        <td class="p-column-title"><span class="p-column-title">Estado</span>{{pessoa.endereco.cidade.estado.nome}}</td>
                         <td class="p-column-title col-status"><span class="p-column-title">Status</span>
                             <ng-template pTemplate="body" [ngIf]="pessoa.ativo">
                                 <a href="javascript:;" pTooltip="Desativar" tooltipPosition="top" (click)="mudarStatus(pessoa)">Ativo</a>
