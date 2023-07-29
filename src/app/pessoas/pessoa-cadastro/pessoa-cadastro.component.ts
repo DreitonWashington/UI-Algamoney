@@ -52,10 +52,17 @@ export class PessoaCadastroComponent {
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
-  carregarCidades(){
-    this.pessoaService.pesquisarCidades(this.estadoSelecionado).then((lista:any)=>{
-      this.cidades = lista['content'].map((c:any)=>({label: c.nome, value:c.codigo}))
-    }).catch(erro => this.errorHandlerService.handle(erro));
+  carregarCidades() {
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado!)
+      .then((cidades:any) => {
+        this.cidades = cidades['content'].map((c:any) => ({
+          label: c.nome,
+          value: c.codigo
+        }));
+        if (this.estadoSelecionado !== this.pessoa.endereco.cidade.estado.codigo)
+          this.pessoa.endereco.cidade.codigo = undefined;
+      })
+      .catch((erro: any) => this.errorHandlerService.handle(erro));
   }
 
   get editando(){
@@ -65,6 +72,12 @@ export class PessoaCadastroComponent {
   carregarPessoa(codigo:Number){
     this.pessoaService.pesquisarPorId(codigo).then((pessoa)=>{
       this.pessoa = pessoa;
+      this.estadoSelecionado = (this.pessoa.endereco.cidade) ?
+        this.pessoa.endereco.cidade.estado.codigo : undefined;
+
+      if(this.estadoSelecionado){
+        this.carregarCidades()
+      }
       this.title.setTitle(`Editando Pessoa: ${pessoa.nome}`)
     }).catch((erro)=> this.errorHandlerService.handle(erro))
   }
